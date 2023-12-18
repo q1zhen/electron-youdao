@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="main.css">
+	<title>Dictionary</title>
+</head>
+<body>
+	<div id="bgFallback"></div>
+	<div id="bg"></div>
+	<div id="mica"></div>
+	<form id="searchboxContainer" onsubmit="buttonSearch(); return false">
+		<input type="text" id="inputWord" placeholder="Search for a word ..." onmouseover="$(this).focus()">
+		<input type="submit" hidden>
+	</form>
+	<div id="resultContainer">
+		<div id="result"></div>
+	</div>
+	<script>
+		window.electron = require("electron")
+	</script>
+	<script src="front.js"></script>
+</body>
+</html>

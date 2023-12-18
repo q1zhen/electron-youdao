@@ -1,0 +1,157 @@
+:root {
+	--fontFamilySys: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif;
+	--fontFamilyLatex: "NewComputerModern10", Georgia, "Times New Roman", serif;
+	--fontSizeMain: 22px;
+	--fontSizeSmall: 18px;
+	--fontSizeLarge: 48px;
+	--colorMain: #ffffff;
+	--colorDim: #cfd8dc;
+	--colorEm: #4dd0e1;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 100%;
+	font-weight: 300;
+}
+
+#bgFallback {
+	background: linear-gradient(135deg, #65799b, #5e2563);
+	width: 100%;
+	height: 100%;
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	z-index: -5;
+	position: fixed;
+	top: 0;
+	left: 0;
+}
+
+#bg {
+	background: linear-gradient(135deg, #65799b, #5e2563);
+	background-image: url("/C:/Users/Lenovo/AppData/Roaming/Microsoft/Windows/Themes/TranscodedWallpaper");
+	width: 100%;
+	height: 100%;
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	z-index: -3;
+	position: fixed;
+	top: 0;
+	left: 0;
+}
+
+#mica {
+	width: 100%;
+	height: 100%;
+	z-index: -1;
+	background-color: #232734db;
+	backdrop-filter: blur(40px);
+	position: fixed;
+	top: 0;
+	left: 0;
+}
+
+#searchboxContainer {
+	width: fit-content;
+	margin: auto;
+	padding: 8vh 0;
+	font-family: var(--fontFamilySys);
+}
+
+#searchboxContainer * {
+	font-size: 18px;
+	font-family: var(--fontFamilySys);
+}
+
+#inputWord {
+	padding: 8px;
+	border: 1px solid #88808466;
+	background-color: #00000000;
+	border-radius: 32px;
+	text-align: center;
+	width: 320px;
+	min-width: 10vw;
+	color: var(--colorDim);
+	transition: border 0.3s, background 0.3s;
+}
+
+#inputWord:focus,
+#inputWord:hover {
+	outline: none;
+	background-color: #232734ee;
+}
+
+#inputWord:hover {
+	border: 1px solid #8bc34a99;
+}
+
+#resultContainer {
+	width: fit-content;
+	max-width: 90vw;
+	min-width: 30vw;
+	max-height: calc(80vh - 42px);
+	overflow: auto;
+	margin: auto;
+}
+
+#result {
+	width: 50vw;
+	max-width: 90vw;
+	min-width: 30vw;
+	margin: auto;
+	resize: horizontal;
+	overflow: hidden;
+}
+
+#word {
+	font-size: var(--fontSizeLarge);
+	font-family: var(--fontFamilyLatex);
+	font-weight: 600;
+	color: var(--colorMain);
+}
+
+#phonetic {
+	font-size: var(--fontSizeSmall);
+	font-family: var(--fontFamilySys);
+	color: var(--colorDim);
+}
+
+#def {
+	font-size: var(--fontSizeMain);
+	font-family: var(--fontFamilyLatex);
+	color: var(--colorMain);
+	margin: var(--fontSizeMain) 0;
+}
+
+#def>.line {
+	display: block;
+	margin: calc(var(--fontSizeMain) / 2) 0;
+}
+
+#def>.line>.pos {
+	display: inline-block;
+	width: calc(var(--fontSizeMain) * 2.5);
+	color: var(--colorEm);
+	font-weight: 600;
+}
+
+.dim {
+	display: inline;
+	color: var(--colorDim);
+	font-size: var(--fontSizeSmall);
+}
+
+#additional {
+	font-size: var(--fontSizeSmall);
+	font-family: var(--fontFamilyLatex);
+	color: var(--colorDim);
+}
+
+::-webkit-scrollbar, ::-webkit-scrollbar-thumb {
+	display: none;
+}
