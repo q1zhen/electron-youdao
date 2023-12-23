@@ -8,6 +8,7 @@ const createWindow = () => {
 			contextIsolation: false
 		}
 	})
+	// win.removeMenu(true)
 	win.loadFile('index.html')
 }
 
