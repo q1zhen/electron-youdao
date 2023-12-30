@@ -146,6 +146,16 @@ body {
 	font-weight: 600;
 }
 
+.sepWord {
+	border-bottom: 1px solid;
+	border-color: transparent;
+	cursor: pointer;
+	transition: border 0.3s, opacity 0.3s;
+}
+.sepWord:hover {
+	border-color: initial;
+}
+
 .dim {
 	display: inline;
 	color: var(--colorDim);

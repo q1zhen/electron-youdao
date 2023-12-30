@@ -10,7 +10,7 @@
 	<div id="bgFallback"></div>
 	<div id="bg"></div>
 	<div id="mica"></div>
-	<form id="searchboxContainer" onsubmit="buttonSearch(); return false">
+	<form id="searchboxContainer" onsubmit="buttonSearch($('#inputWord').val()); return false">
 		<input type="text" id="inputWord" placeholder="Search for a word ..." onmouseover="$(this).focus()">
 		<input type="submit" hidden>
 	</form>
@@ -18,7 +18,7 @@
 		<div id="result"></div>
 	</div>
 	<div id="version">
-		Version 23w51h.
+		Version 23w52b.
 	</div>
 	<script>
 		window.electron = require("electron")

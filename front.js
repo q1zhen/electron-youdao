@@ -5,8 +5,24 @@ function prettify(str) {
 	return str.trim().replace(/\s+/g, ' ')
 }
 
-async function buttonSearch() {
-	let inputWord = prettify($("#inputWord").val())
+function wordSep(input) {
+	let tokens = input.split(/([.,;!:，。；、<>（）【】\[\] ])/);
+	let divElements = tokens.map(function (token) {
+		if (token) {
+			if (/[.,;!:，。；、<>（）【】\[\] ]/.test(token)) {
+				return token;
+			} else {
+				return '<span class="sepWord">' + prettify(token) + '</span>';
+			}
+		}
+	});
+	let resultString = divElements.join('');
+	return resultString;
+}
+
+async function buttonSearch(_input) {
+	let _inputWord = prettify(_input)
+	let inputWord = encodeURI(_inputWord)
 	$("#result").html("")
 	if (inputWord) {
 		$("#inputWord").attr("disabled", "yes")
@@ -24,7 +40,7 @@ async function buttonSearch() {
 							let trans = mainContent.find("ul")
 							let additional = mainContent.find(".additional")
 							let result = ""
-							result += `<div id="word">${prettify(word.text())}</div>`
+							result += `<div id="word">${wordSep(prettify(word.text()))}</div>`
 							if (phonetic.text()) {
 								result += `<div id="phonetic">${prettify(phonetic.text())}</div>`
 							}
@@ -34,13 +50,18 @@ async function buttonSearch() {
 									let line = $(n).text()
 									let dotIndex = line.indexOf(".")
 									if (dotIndex !== -1) {
-										let first = line.substring(0, dotIndex)
-										let second = line.substring(dotIndex + 1)
-										second = second.replaceAll("（", `<div class="dim">（`).replaceAll("）", "）</div>")
-										result += `<div class="line"><div class="pos">${first}.</div>${second}</div>`
+										let first = prettify(line.substring(0, dotIndex))
+										if (first.length <= 6) {
+											let second = wordSep(line.substring(dotIndex + 1))
+											second = second.replaceAll("（", `<div class="dim">（`).replaceAll("）", "）</div>")
+											result += `<div class="line"><div class="pos">${first}.</div>${second}</div>`
+										}
+										else {
+											result += `<div class="line">${wordSep(line)}</div>`
+										}
 									}
 									else {
-										result += `<div class="line">${line}</div>`
+										result += `<div class="line">${wordSep(line)}</div>`
 									}
 								})
 							}
@@ -48,7 +69,7 @@ async function buttonSearch() {
 								$.error("No definitions.")
 							}
 							if (additional.text()) {
-								result += `<div id="additional">${prettify(additional.text())}</div>`
+								result += `<div id="additional">${wordSep(prettify(additional.text().replaceAll("[", "").replaceAll("]", "")))}</div>`
 							}
 							result += `</div>`
 							$("#result").html(result)
@@ -63,11 +84,17 @@ async function buttonSearch() {
 				}
 			)
 			.catch((error) => {
-				let result = `<div id="word">${inputWord}</div><div id="additional">${error.message}</div>`
+				let result = `<div id="word">${wordSep(_inputWord)}</div><div id="additional">${error.message} <span id="retry">↺</span></div>`
 				$("#result").html(result)
 			})
 			.finally(() => {
 				$("#inputWord").removeAttr("disabled")
+				$("#retry").on("click", (s) => {
+					buttonSearch(_inputWord)
+				})
+				$(".sepWord").on("click", (s) => {
+					buttonSearch($(s.currentTarget).text())
+				})
 			})
 	}
 	$("#inputWord").val("")
@@ -75,4 +102,4 @@ async function buttonSearch() {
 }
 
 $("#bg").css("background-image", `url("${process.env.APPDATA.replaceAll("\\", "/")
-}/Microsoft/Windows/Themes/TranscodedWallpaper")`)
+	}/Microsoft/Windows/Themes/TranscodedWallpaper")`)
