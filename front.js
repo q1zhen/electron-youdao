@@ -1,23 +1,38 @@
 const $ = require('jquery')
 const axios = require('axios')
 
+var searched = ['']
+
 function prettify(str) {
 	return str.trim().replace(/\s+/g, ' ')
 }
 
 function wordSep(input) {
-	let tokens = input.split(/([.,;!:，。；、<>（）【】\[\] ])/);
+	let tokens = input.split(/([.,;!:，。；、<>【】\[\] ])/);
 	let divElements = tokens.map(function (token) {
 		if (token) {
-			if (/[.,;!:，。；、<>（）【】\[\] ]/.test(token)) {
+			if (/[.,;!:，。；、<>【】\[\] ]/.test(token)) {
 				return token;
 			} else {
-				return '<span class="sepWord">' + prettify(token) + '</span>';
+				return `<span class="sepWord">${prettify(token)}</span>`;
 			}
 		}
 	});
 	let resultString = divElements.join('');
 	return resultString;
+}
+
+function prev() {
+	if (searched.length != 0 && searched.length != 1) {
+		searched.pop()
+		buttonSearch(searched[searched.length - 1])
+	}
+	if (searched.length == 0 || searched.length == 1) {
+		$("#prev").addClass("disabled")
+	}
+	else {
+		$("#prev").removeClass("disabled")
+	}
 }
 
 async function buttonSearch(_input) {
@@ -53,7 +68,7 @@ async function buttonSearch(_input) {
 										let first = prettify(line.substring(0, dotIndex))
 										if (first.length <= 6) {
 											let second = wordSep(line.substring(dotIndex + 1))
-											second = second.replaceAll("（", `<div class="dim">（`).replaceAll("）", "）</div>")
+											second = second.replaceAll("（", `<div class="dim">`).replaceAll("）", "</div>")
 											result += `<div class="line"><div class="pos">${first}.</div>${second}</div>`
 										}
 										else {
@@ -63,6 +78,9 @@ async function buttonSearch(_input) {
 									else {
 										result += `<div class="line">${wordSep(line)}</div>`
 									}
+								})
+								$(".dim").each((i, n) => {
+									$(n).html($(n).text())
 								})
 							}
 							else {
@@ -84,7 +102,7 @@ async function buttonSearch(_input) {
 				}
 			)
 			.catch((error) => {
-				let result = `<div id="word">${wordSep(_inputWord)}</div><div id="additional">${error.message} <span id="retry">↺</span></div>`
+				let result = `<div id="word">${wordSep(_inputWord)}</div><div id="additional">${error.message} <span id="retry" title="Retry">↺</span></div>`
 				$("#result").html(result)
 			})
 			.finally(() => {
@@ -92,14 +110,36 @@ async function buttonSearch(_input) {
 				$("#retry").on("click", (s) => {
 					buttonSearch(_inputWord)
 				})
+				$(".sepWord").on("mouseover", (s) => {
+					let nextword = $(s.currentTarget.outerHTML)
+					nextword.find(".dim").remove()
+					$(s.currentTarget).attr("title", `Search for "${nextword.text()}"`)
+				})
 				$(".sepWord").on("click", (s) => {
-					buttonSearch($(s.currentTarget).text())
+					let nextword = $(s.currentTarget.outerHTML)
+					nextword.find(".dim").remove()
+					buttonSearch(nextword.text())
 				})
 			})
+	}
+	if (_inputWord != searched[searched.length - 1]) {
+		if (searched[searched.length - 1]) {
+			searched.push(_inputWord)
+		}
+		else {
+			searched[searched.length - 1] = _inputWord
+		}
+	}
+	if (searched.length == 0 || searched.length == 1) {
+		$("#prev").addClass("disabled")
+	}
+	else {
+		$("#prev").removeClass("disabled")
 	}
 	$("#inputWord").val("")
 	$("#inputWord").focus()
 }
 
+prev()
 $("#bg").css("background-image", `url("${process.env.APPDATA.replaceAll("\\", "/")
 	}/Microsoft/Windows/Themes/TranscodedWallpaper")`)

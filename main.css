@@ -18,6 +18,22 @@ body {
 	font-weight: 300;
 }
 
+*[tooltip] {
+	position: relative;
+}
+*[tooltip]:hover::after {
+	position: absolute;
+	z-index: 5;
+	width: max-content;
+	height: 20px;
+	font-size: 12px;
+	border-radius: 4px;
+	border: 1px solid white;
+	content: attr(tooltip);
+	left: -50%;
+	top: 80%;
+}
+
 #bgFallback {
 	background: linear-gradient(135deg, #65799b, #5e2563);
 	width: 100%;
@@ -60,12 +76,24 @@ body {
 	width: fit-content;
 	margin: auto;
 	padding: 8vh 0;
+	font-size: var(--fontSizeMain);
 	font-family: var(--fontFamilySys);
 }
 
-#searchboxContainer * {
-	font-size: 18px;
-	font-family: var(--fontFamilySys);
+#prev {
+	color: var(--colorDim);
+	opacity: 0.5;
+	transition: color 0.3s;
+	cursor: pointer;
+}
+#prev:hover {
+	color: var(--colorEm);
+}
+#prev.disabled {
+	cursor: not-allowed;
+}
+#prev.disabled:hover {
+	color: var(--colorDim);
 }
 
 #inputWord {
@@ -76,7 +104,9 @@ body {
 	text-align: center;
 	width: 320px;
 	min-width: 10vw;
+	font-size: 18px;
 	color: var(--colorDim);
+	font-family: var(--fontFamilySys);
 	transition: border 0.3s, background 0.3s;
 }
 
@@ -127,6 +157,14 @@ body {
 	color: var(--colorDim);
 }
 
+#retry {
+	transition: color 0.3s;
+	cursor: pointer;
+}
+#retry:hover {
+	color: var(--colorEm);
+}
+
 #def {
 	font-size: var(--fontSizeMain);
 	font-family: var(--fontFamilyLatex);
@@ -160,6 +198,12 @@ body {
 	display: inline;
 	color: var(--colorDim);
 	font-size: var(--fontSizeSmall);
+}
+.dim::before {
+	content: ' (';
+}
+.dim::after {
+	content: ') ';
 }
 
 #additional {

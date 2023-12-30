@@ -1,6 +1,6 @@
 {
   "name": "electron-youdao",
-  "version": "23w52b",
+  "version": "23w52d",
   "main": "main.js",
   "author": "Qizhen Yang",
   "description": "A modern electron version of the Youdao web dictionary.",
