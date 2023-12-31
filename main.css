@@ -148,7 +148,12 @@ body {
 	font-size: var(--fontSizeLarge);
 	font-family: var(--fontFamilyLatex);
 	font-weight: 600;
+	line-height: 1;
 	color: var(--colorMain);
+}
+
+#word.long {
+	font-size: var(--fontSizeMain);
 }
 
 #phonetic {

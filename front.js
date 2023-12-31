@@ -84,7 +84,7 @@ async function buttonSearch(_input) {
 								})
 							}
 							else {
-								$.error("No definitions.")
+								$.error("ndef")
 							}
 							if (additional.text()) {
 								result += `<div id="additional">${wordSep(prettify(additional.text().replaceAll("[", "").replaceAll("]", "")))}</div>`
@@ -97,13 +97,25 @@ async function buttonSearch(_input) {
 						}
 					}
 					else {
-						$.error("No definitions.")
+						$.error("ndef")
 					}
 				}
 			)
-			.catch((error) => {
-				let result = `<div id="word">${wordSep(_inputWord)}</div><div id="additional">${error.message} <span id="retry" title="Retry">↺</span></div>`
-				$("#result").html(result)
+			.catch(async (error) => {
+				try {
+					if (error.message == "ndef") {
+						await gtranslate(_inputWord).then(response => {
+							let result = `<div id="word">${wordSep(_inputWord)}</div><div id="def"><div clas="line">${wordSep(response)}</div><div id="additional">(Google translated)</div></div>`
+							$("#result").html(result)
+						})
+					}
+					else {
+						$.error(error.message)
+					}
+				} catch (e) {
+					let result = `<div id="word">${wordSep(_inputWord)}</div><div id="additional">${error.message} <span id="retry" title="Retry">↺</span></div>`
+					$("#result").html(result)
+				}
 			})
 			.finally(() => {
 				$("#inputWord").removeAttr("disabled")
@@ -120,6 +132,9 @@ async function buttonSearch(_input) {
 					nextword.find(".dim").remove()
 					buttonSearch(nextword.text())
 				})
+				if ($("#word").text().length > 20) {
+					$("#word").addClass("long")
+				}
 			})
 	}
 	if (_inputWord != searched[searched.length - 1]) {
@@ -138,6 +153,29 @@ async function buttonSearch(_input) {
 	}
 	$("#inputWord").val("")
 	$("#inputWord").focus()
+}
+
+async function gtranslate(input, to = "en") {
+	let r
+	await axios.get("https://translate.googleapis.com/translate_a/single", {
+		params: {
+			client: "gtx",
+			dt: "t",
+			sl: "auto",
+			tl: to,
+			q: input,
+		}
+	})
+		.then(response => {
+			let result = response.data[0][0][0]
+			if (result == input && to == "en") {
+				r = gtranslate(input, "zh")
+			}
+			else {
+				r = result
+			}
+		})
+	return r
 }
 
 prev()
