@@ -34,22 +34,8 @@ body {
 	top: 80%;
 }
 
-#bgFallback {
-	background: linear-gradient(135deg, #65799b, #5e2563);
-	width: 100%;
-	height: 100%;
-	background-size: cover;
-	background-position: center;
-	background-repeat: no-repeat;
-	z-index: -5;
-	position: fixed;
-	top: 0;
-	left: 0;
-}
-
 #bg {
-	background: linear-gradient(135deg, #65799b, #5e2563);
-	background-image: none;
+	background-image: linear-gradient(135deg, #65799b, #5e2563);
 	width: 100%;
 	height: 100%;
 	background-size: cover;
@@ -57,6 +43,7 @@ body {
 	background-repeat: no-repeat;
 	z-index: -3;
 	position: fixed;
+	filter: saturate(1.5) brightness(0.75);
 	top: 0;
 	left: 0;
 }
@@ -65,8 +52,8 @@ body {
 	width: 100%;
 	height: 100%;
 	z-index: -1;
-	background-color: #232734db;
-	backdrop-filter: blur(40px);
+	background-color: #202020d0;
+	backdrop-filter: blur(60px);
 	position: fixed;
 	top: 0;
 	left: 0;

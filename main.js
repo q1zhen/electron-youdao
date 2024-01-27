@@ -6,9 +6,9 @@ const createWindow = () => {
 		webPreferences: {
 			nodeIntegration: true,
 			contextIsolation: false
-		}
+		},
+		autoHideMenuBar: true
 	})
-	// win.removeMenu(true)
 	win.loadFile('index.html')
 }
 
