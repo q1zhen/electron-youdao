@@ -19,7 +19,7 @@ if year == prevYear and week == prevWeek:
 else:
 	count = "a"
 
-version = f"{year}w{week}{count}"
+version = f"{year}w{str(week).zfill(2)}{count}"
 
 data["version"] = version
 

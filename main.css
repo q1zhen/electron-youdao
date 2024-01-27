@@ -1,6 +1,6 @@
 :root {
 	--fontFamilySys: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif;
-	--fontFamilyLatex: "NewComputerModern10", Georgia, "Times New Roman", serif;
+	--fontFamilyTitle: "Inter Black", "Segoe UI Black", "Arial Black", sans-serif;
 	--fontSizeMain: 22px;
 	--fontSizeSmall: 18px;
 	--fontSizeLarge: 48px;
@@ -146,9 +146,9 @@ body {
 
 #word {
 	font-size: var(--fontSizeLarge);
-	font-family: var(--fontFamilyLatex);
+	font-family: var(--fontFamilyTitle);
 	font-weight: 600;
-	line-height: 1;
+	line-height: 1.5;
 	color: var(--colorMain);
 }
 
@@ -172,7 +172,7 @@ body {
 
 #def {
 	font-size: var(--fontSizeMain);
-	font-family: var(--fontFamilyLatex);
+	font-family: var(--fontFamilySys);
 	color: var(--colorMain);
 	margin: var(--fontSizeMain) 0;
 }
@@ -185,6 +185,7 @@ body {
 #def>.line>.pos {
 	display: inline-block;
 	width: calc(var(--fontSizeMain) * 2.5);
+	font-family: var(--fontFamilyTitle);
 	color: var(--colorEm);
 	font-weight: 600;
 }
@@ -213,7 +214,7 @@ body {
 
 #additional {
 	font-size: var(--fontSizeSmall);
-	font-family: var(--fontFamilyLatex);
+	font-family: var(--fontFamilySys);
 	color: var(--colorDim);
 }
 
