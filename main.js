@@ -1,7 +1,7 @@
-const {app, BrowserWindow} = require('electron')
+const {app, BrowserWindow, screen, ipcMain} = require('electron')
 
-const createWindow = () => {
-	const win = new BrowserWindow({
+app.whenReady().then(() => {
+	let win = new BrowserWindow({
 		width: 1200, height: 800,
 		webPreferences: {
 			nodeIntegration: true,
@@ -10,15 +10,33 @@ const createWindow = () => {
 		autoHideMenuBar: true
 	})
 	win.loadFile('index.html')
-}
-
-app.whenReady().then(() => {
-	createWindow()
-
-	app.on('activate', () => {
-		if (BrowserWindow.getAllWindows().length === 0) {
-			createWindow()
-		}
+	win.on("close", () => {
+		app.quit()
+	})
+	ipcMain.on('popup', () => {
+		let popup = new BrowserWindow({
+			width: 480, height: 80,
+			maxHeight: 80,
+			skipTaskbar: true,
+			minimizable: false,
+			maximizable: false,
+			alwaysOnTop: true,
+			webPreferences: {
+				nodeIntegration: true,
+				contextIsolation: false
+			},
+			autoHideMenuBar: true
+		})
+		popup.loadFile('popup.html')
+		ipcMain.on('finish', () => {
+			popup.webContents.send('searched')
+		})
+		popup.on('close', () => {
+			win.webContents.send('popup-close')
+		})
+	})
+	ipcMain.on('search', (e, input) => {
+		win.webContents.send('gosearch', input)
 	})
 })
 
@@ -27,3 +45,4 @@ app.on('window-all-closed', () => {
 		app.quit()
 	}
 })
+

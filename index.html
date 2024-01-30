@@ -11,15 +11,16 @@
 	<div id="bg"></div>
 	<div id="mica"></div>
 	<form id="searchboxContainer" onsubmit="buttonSearch($('#inputWord').val()); return false">
-		<i class="fa-solid fa-chevron-left" id="prev" onclick="prev()" title="Previous"></i>
-		<input type="text" id="inputWord" placeholder="Search for a word ..." onmouseover="$(this).focus()">
+		<i class="icon fa-solid fa-chevron-left" id="prev" onclick="prev()" title="Previous"></i>
+		<input type="text" id="inputWord" placeholder="Look up a word or translate" onmouseover="$(this).focus()" autofocus>
+		<i class="icon fa-solid fa-arrow-up-right-from-square" id="popup" title="Pop-up searchbox" onclick="popup()"></i>
 		<input type="submit" hidden>
 	</form>
 	<div id="resultContainer">
 		<div id="result"></div>
 	</div>
 	<div id="version">
-		Version 24w04e.
+		Version 24w05a.
 	</div>
 	<script>
 		window.electron = require("electron")

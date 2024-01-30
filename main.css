@@ -2,7 +2,7 @@
 	--fontFamilySys: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif;
 	--fontFamilyTitle: "Inter Black", "Segoe UI Black", "Arial Black", sans-serif;
 	--fontSizeMain: 22px;
-	--fontSizeSmall: 18px;
+	--fontSizeSmall: 16px;
 	--fontSizeLarge: 48px;
 	--colorMain: #ffffff;
 	--colorDim: #cfd8dc;
@@ -67,19 +67,20 @@ body {
 	font-family: var(--fontFamilySys);
 }
 
-#prev {
+.icon {
 	color: var(--colorDim);
 	opacity: 0.5;
 	transition: color 0.3s;
 	cursor: pointer;
+	margin: 0 24px;
 }
-#prev:hover {
+.icon:hover {
 	color: var(--colorEm);
 }
-#prev.disabled {
+.icon.disabled {
 	cursor: not-allowed;
 }
-#prev.disabled:hover {
+.icon.disabled:hover {
 	color: var(--colorDim);
 }
 
@@ -87,9 +88,10 @@ body {
 	padding: 8px;
 	border: 1px solid #88808466;
 	background-color: transparent;
-	border-radius: 32px;
+	border-radius: 8px;
 	text-align: center;
-	width: 320px;
+	width: 480px;
+	max-width: calc(100vw - 100px);
 	min-width: 10vw;
 	font-size: 18px;
 	color: var(--colorDim);
@@ -100,11 +102,11 @@ body {
 #inputWord:focus,
 #inputWord:hover {
 	outline: none;
-	background-color: #232734ee;
+	background-color: #1d1f20ee;
 }
 
 #inputWord:hover {
-	border: 1px solid #8bc34a99;
+	border: 1px solid #4a93c399;
 }
 
 #inputWord:disabled {
@@ -123,10 +125,11 @@ body {
 }
 
 #result {
-	width: 50vw;
+	width: max(800px, 50vw);
 	max-width: 90vw;
 	min-width: 30vw;
 	margin: auto;
+	padding: 8px;
 	resize: horizontal;
 	overflow: hidden;
 }
@@ -166,12 +169,25 @@ body {
 
 #def>.line {
 	display: block;
-	margin: calc(var(--fontSizeMain) / 2) 0;
+	margin: 8px 0;
+	padding: 20px;
+	border-radius: 8px;
+	background-color: #40404060;
+	transition: background-color 0.1s;
+	border: 1px solid #1d1d1da0;
+	box-shadow: 0 0 5px #1d1d1d80;
+}
+#def>.line:hover {
+	background-color: #60606060;
+	border-color: #353535a0;
+}
+#def>.line:active {
+	background-color: #40404040;
 }
 
 #def>.line>.pos {
 	display: inline-block;
-	width: calc(var(--fontSizeMain) * 2.5);
+	width: calc(var(--fontSizeMain) * 3);
 	font-family: var(--fontFamilyTitle);
 	color: var(--colorEm);
 	font-weight: 600;

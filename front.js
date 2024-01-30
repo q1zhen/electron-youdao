@@ -1,5 +1,6 @@
 const $ = require('jquery')
 const axios = require('axios')
+const { ipcRenderer } = require('electron')
 
 var searched = ['']
 
@@ -105,7 +106,7 @@ async function buttonSearch(_input) {
 				try {
 					if (error.message == "ndef") {
 						await gtranslate(_inputWord).then(response => {
-							let result = `<div id="word">${wordSep(_inputWord)}</div><div id="def"><div clas="line">${wordSep(response)}</div><div id="additional">(Google translated)</div></div>`
+							let result = `<div id="word">${wordSep(_inputWord)}</div><div id="def"><div class="line">${wordSep(response)}</div><div id="additional">(Google translated)</div></div>`
 							$("#result").html(result)
 						})
 					}
@@ -177,6 +178,26 @@ async function gtranslate(input, to = "en") {
 		})
 	return r
 }
+
+var popuped = false
+
+function popup() {
+	if (!popuped) {
+		$("#popup").addClass("disabled")
+		popuped = true
+		ipcRenderer.send('popup')
+	}
+}
+
+ipcRenderer.on('gosearch', async (e, input) => {
+	await buttonSearch(input)
+	ipcRenderer.send('finish')
+})
+
+ipcRenderer.on('popup-close', () => {
+	$("#popup").removeClass("disabled")
+	popuped = false
+})
 
 prev()
 $("#bg").css("background-image", `url("${process.env.APPDATA.replaceAll("\\", "/")
